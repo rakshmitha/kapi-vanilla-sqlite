@@ -19,7 +19,7 @@ database = "test.db"
 
 def start():
     """
-    Query all rows in the CITY table
+    Query all rows in the MOVIE table
     :param conn: the Connection object
     :return:
     """    
@@ -31,7 +31,7 @@ def start():
         print(e) 
         return
     
-    sql = ''' DELETE FROM CITY'''
+    sql = ''' DELETE FROM MOVIE'''
     cur = conn.cursor()
     
     try:

@@ -10,7 +10,7 @@ movie_name
 release_date
 
 
-Movie Artists:
+Movie Artist:
 maid
 movie_id
 artist_id
