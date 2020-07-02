@@ -2,6 +2,8 @@
 
 #### Movie CRUD Vanilla SQLiteDB
 
+DB Table
+```
 Movie:
 mid
 movie_name
@@ -13,3 +15,4 @@ maid
 movie_id
 artist_id
 artist_role
+```
