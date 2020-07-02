@@ -1,6 +1,6 @@
 
 
-#### Movie CRUD Vanill SQLiteDB
+#### Movie CRUD Vanilla SQLiteDB
 
 Movie:
 mid

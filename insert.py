@@ -10,16 +10,22 @@ Course work:
 
 Source:
     
+
+    MOVIE:
+    mid
+    movie_name
+    release_date
+
 '''
 import sqlite3
 import random
 from sqlite3 import Error
 
-database = "test.db"
+database = "movie.db"
 
 def start():
     """
-    Query all rows in the CITY table
+    Query all rows in the MOVIE table
     :param conn: the Connection object
     :return:
     """    
@@ -31,18 +37,18 @@ def start():
         print(e) 
         return
     
-    sql = ''' INSERT INTO CITY (NAME, STATE) 
-            VALUES (:name, :state) '''
+    sql = ''' INSERT INTO MOVIE (MOVIE_NAME, RELEASE_DATE) 
+            VALUES (:name, :release_date) '''
     cur = conn.cursor()
     
-    city_obj = {
-        'name' : 'Toronto',
-        'state' : 'ON'
+    movie_obj = {
+        'name' : 'Thani Oruvan',
+        'release_date' : '28 Aug 2015'
     }
     
     created_id = -1
     try:
-        cur.execute(sql, city_obj)
+        cur.execute(sql, movie_obj)
         
         created_id = cur.lastrowid
     except sqlite3.IntegrityError as sqle:

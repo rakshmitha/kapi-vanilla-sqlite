@@ -31,13 +31,13 @@ def start():
         print(e) 
         return
     
-    sql = ''' DELETE FROM CITY
-    WHERE NAME = :name 
+    sql = ''' DELETE FROM MOVIE
+    WHERE MOVIE_NAME = :name 
     '''
     cur = conn.cursor()
     
     try:
-        cur.execute(sql, ('Madurai',))       
+        cur.execute(sql, ('Asuran',))       
     except sqlite3.IntegrityError as sqle:
         print("SQLite error : {0}".format(sqle))
     finally:        

@@ -33,39 +33,39 @@ def create_connection(db_file):
 
 def select_all(conn):
     """
-    Query all rows in the CITY table
+    Query all rows in the MOVIE table
     :param conn: the Connection object
     :return:
     """
     cur = conn.cursor()
-    cur.execute("SELECT * FROM CITY")
+    cur.execute("SELECT * FROM MOVIE")
  
     rows = cur.fetchall()
     
     print('rows count : '+str(len(rows)))
     
     if(len(rows) <= 0):
-        print('No Data available');
+        print('No Data available')
  
     for row in rows:
         print(row)         
 
 
 
-def add_city(conn, city_obj):
+def add_movie(conn, movie_obj):
     """
-    Create a city
+    Create a movie
     :param task:
     :return: task id
     """
    
-    sql = ''' INSERT INTO CITY (NAME, STATE) 
-            VALUES (:name, :state) '''
+    sql = ''' INSERT INTO MOVIE (MOVIE_NAME, RELEASE_DATE) 
+            VALUES (:name, :release_date) '''
     cur = conn.cursor()
     
     lastrowid = -1
     try:
-        cur.execute(sql, city_obj)
+        cur.execute(sql, movie_obj)
         
         lastrowid = cur.lastrowid
     except sqlite3.IntegrityError as sqle:
@@ -75,21 +75,21 @@ def add_city(conn, city_obj):
     
     return lastrowid
 
-def update_city(conn, city_obj):
+def update_movie(conn, movie_obj):
     """
-    Create a city
-    :param city object:
+    Create a movie
+    :param movie object:
     :return: None
     """
    
-    sql = ''' UPDATE CITY
-    SET NAME = :new_name, 
-    STATE = :state 
-    WHERE NAME = :name '''
+    sql = ''' UPDATE MOVIE
+    SET MOVIE_NAME = :new_name, 
+    RELEASE_DATE = :release_date 
+    WHERE MOVIE_NAME = :name '''
     cur = conn.cursor()
     
     try:
-        cur.execute(sql, city_obj)
+        cur.execute(sql, movie_obj)
         
     except sqlite3.IntegrityError as sqle:
         print("SQLite error : {0}".format(sqle))
@@ -98,15 +98,15 @@ def update_city(conn, city_obj):
     
     print('Updated')
     
-def delete_city(conn, name):
+def delete_movie(conn, name):
     """
-    Delete a city
-    :param city object:
+    Delete a movie
+    :param movie object:
     :return: None
     """
    
-    sql = ''' DELETE FROM CITY    
-    WHERE NAME = ?'''
+    sql = ''' DELETE FROM MOVIE    
+    WHERE MOVIE_NAME = ?'''
     cur = conn.cursor()
     
     try:
@@ -121,12 +121,12 @@ def delete_city(conn, name):
     
 def delete_all_cities(conn):
     """
-    Delete a city
-    :param city object:
+    Delete a movie
+    :param movie object:
     :return: None
     """
    
-    sql = ''' DELETE CITY '''
+    sql = ''' DELETE MOVIE '''
     cur = conn.cursor()
     
     try:
@@ -147,37 +147,34 @@ def main():
     with conn:        
         
         # CREATE
-        print('Create City')
-        city_obj = {
-            'name' : 'Montreal',
-            'state' : 'QC'
+        print('Create Movie')
+        movie_obj = {
+            'name' : 'Kadal',
+            'release_date' : '30 Jan 2013'
         } 
-        result = add_city(conn, city_obj)
+        result = add_movie(conn, movie_obj)
         print(result)
         print('---------------\n')
     
         # READ
-        print('Read City')
+        print('Read Movie')
         select_all(conn)
         print('---------------\n')
         
         # UPDATE
-        print('Update City')
+        print('Update Movie')
         city_new_obj = {
-            'name' : 'Montreal',
-            'new_name' : 'Quebec City',
-            'state' : 'ON'
+            'name' : 'Kadal',
+            'new_name' : 'Kadal',
+            'release_date' : '31 Jan 2013'
         }
-        update_city(conn, city_new_obj)
+        update_movie(conn, city_new_obj)
         print('---------------\n')
         
         # DELETE    
-        print('Delete City')  
-        delete_city(conn, 'Quebec City')
+        print('Delete Movie')  
+        delete_movie(conn, 'Kadal')
         print('---------------\n')
         
-        
- 
- 
 if __name__ == '__main__':
     main()        
