@@ -50,6 +50,24 @@ def select_all(conn):
     for row in rows:
         print(row)         
 
+def select_all_by_actor(conn, actor_name):
+    """
+    Query all rows in the MOVIE table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM MOVIE WHERE STARRING LIKE '%"+actor_name+"%'")
+ 
+    rows = cur.fetchall()
+    
+    print('rows count : '+str(len(rows)))
+    
+    if(len(rows) <= 0):
+        print('No Data available')
+ 
+    for row in rows:
+        print(row) 
 
 
 def add_movie(conn, movie_obj):
@@ -59,8 +77,8 @@ def add_movie(conn, movie_obj):
     :return: task id
     """
    
-    sql = ''' INSERT INTO MOVIE (MOVIE_NAME, RELEASE_DATE) 
-            VALUES (:name, :release_date) '''
+    sql = ''' INSERT INTO MOVIE (MOVIE_NAME, RELEASE_DATE, STARRING) 
+            VALUES (:name, :release_date, :starring) '''
     cur = conn.cursor()
     
     lastrowid = -1
@@ -84,6 +102,7 @@ def update_movie(conn, movie_obj):
    
     sql = ''' UPDATE MOVIE
     SET MOVIE_NAME = :new_name, 
+    STARRING = :starring,
     RELEASE_DATE = :release_date 
     WHERE MOVIE_NAME = :name '''
     cur = conn.cursor()
@@ -147,34 +166,41 @@ def main():
     with conn:        
         
         # CREATE
-        print('Create Movie')
-        movie_obj = {
-            'name' : 'Kadal',
-            'release_date' : '30 Jan 2013'
-        } 
-        result = add_movie(conn, movie_obj)
-        print(result)
-        print('---------------\n')
+        # print('Create Movie')
+        # movie_obj = {
+        #     'name' : 'Dharbar',
+        #     'release_date' : '9 Jan 2020',
+        #     'starring' : 'Rajini, Nayanthara'
+        # } 
+        # result = add_movie(conn, movie_obj)
+        # print(result)
+        # print('---------------\n')
     
         # READ
-        print('Read Movie')
-        select_all(conn)
+        # print('Read Movie')
+        # select_all(conn)
+        # print('---------------\n')
+
+        # READ by Name
+        print('Read Movie by Name')
+        select_all_by_actor(conn, 'Rajini')
         print('---------------\n')
         
         # UPDATE
-        print('Update Movie')
-        city_new_obj = {
-            'name' : 'Kadal',
-            'new_name' : 'Kadal',
-            'release_date' : '31 Jan 2013'
-        }
-        update_movie(conn, city_new_obj)
-        print('---------------\n')
+        # print('Update Movie')
+        # city_new_obj = {
+        #     'name' : 'Asuran',
+        #     'new_name' : 'Asuran',
+        #     'starring' : 'Dhanush, TeeJay, Ken Karunas',
+        #     'release_date' : '4 Oct 2019'
+        # }
+        # update_movie(conn, city_new_obj)
+        # print('---------------\n')
         
         # DELETE    
-        print('Delete Movie')  
-        delete_movie(conn, 'Kadal')
-        print('---------------\n')
+        # print('Delete Movie')  
+        # delete_movie(conn, 'Kadal')
+        # print('---------------\n')
         
 if __name__ == '__main__':
     main()        

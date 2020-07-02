@@ -23,7 +23,7 @@ from sqlite3 import Error
 
 database = "movie.db"
 
-def start():
+def add_movie(name, release_date, starring):
     """
     Query all rows in the MOVIE table
     :param conn: the Connection object
@@ -37,13 +37,14 @@ def start():
         print(e) 
         return
     
-    sql = ''' INSERT INTO MOVIE (MOVIE_NAME, RELEASE_DATE) 
-            VALUES (:name, :release_date) '''
+    sql = ''' INSERT INTO MOVIE (MOVIE_NAME, RELEASE_DATE, STARRING) 
+            VALUES (:name, :release_date, :starring) '''
     cur = conn.cursor()
     
     movie_obj = {
-        'name' : 'Thani Oruvan',
-        'release_date' : '28 Aug 2015'
+        'name' : name,
+        'release_date' : release_date,
+        'starring' : starring
     }
     
     created_id = -1
@@ -58,6 +59,10 @@ def start():
         conn.commit()
     
     print('created id : '+str(created_id))
+
+def start():
+
+    add_movie('Thanga Magan', '18 Dec 2015', 'Dhanush, Amy Jackson, Samantha Ruth Prabhu')
 
 if __name__ == '__main__':
     start()        
