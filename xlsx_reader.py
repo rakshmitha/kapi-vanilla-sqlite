@@ -14,8 +14,8 @@ Source:
 # import pandas as pd
 import xlrd
 
-FILENAME = '/Users/rajacsp/d/artisttics/artists/kapi.xlsx'
-
+BASE_FOLDER = "/Users/rajacsp/d/artisttics/artists/"
+FILENAME = BASE_FOLDER + "kapi.xlsx"
 
 def read_movies(sheet):
 
@@ -62,11 +62,24 @@ def read_artists(sheet):
 
         if(name == 'NA'):
             continue
+        
+        if(name == 'Name'):
+            continue
         # print(country)
 
-        sql = "INSERT INTO PUBLIC_ARTIST (ARTIST_NAME, DOB, LOCATION, COUNTRY) VALUES ('"+str(name)+"', '01 01 1993', '"+str(location)+"', '"+str(country)+"');"
+        # Insert base sql
+        # insert_sql = "INSERT INTO PUBLIC_ARTIST (ARTIST_NAME, DOB, LOCATION, COUNTRY) VALUES ('"+str(name)+"', '01 01 1993', '"+str(location)+"', '"+str(country)+"');"
+        # print(insert_sql)
 
-        print(sql)
+        if(len(description) < 2):
+            continue
+
+        description = description.replace("\"", "'")
+
+        # Update description
+        update_sql = "UPDATE PUBLIC_ARTIST SET DESCRIPTION = \""+str(description)+"\" WHERE ARTIST_NAME = '"+str(name)+"';"
+        print(update_sql)
+
 
 
 def read_xlsx():
