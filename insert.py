@@ -21,7 +21,9 @@ import sqlite3
 import random
 from sqlite3 import Error
 
-database = "kapi.db"
+import zenv
+
+database = zenv.DB_LOCATION
 
 def add_movie(name, release_date, starring):
     """

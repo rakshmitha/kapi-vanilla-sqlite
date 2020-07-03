@@ -15,7 +15,9 @@ import sqlite3
 import random
 from sqlite3 import Error
 
-database = "test.db"
+import zenv
+
+database = zenv.DB_LOCATION
 
 def start():
     """
