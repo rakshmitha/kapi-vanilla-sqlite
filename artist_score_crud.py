@@ -15,7 +15,7 @@ import sqlite3
 import random
 from sqlite3 import Error
 
-database = "movie.db"
+database = "kapi.db"
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
@@ -56,8 +56,26 @@ def select_all_by_actor(conn, actor_name):
     :param conn: the Connection object
     :return:
     """
+
+    sql = """
+    SELECT
+        PA.AID AS 'ARTIST_ID',
+        PA.ARTIST_NAME AS 'ARTIST_NAME',
+        ASCORE.YEAR  AS 'ARTIST_YEAR',
+        ASCORE.CRITIC_SCORE AS 'CRITIC_SCORE',
+        ASCORE.AUDIENCE_SCORE AS 'AUDIENCE_SCORE',
+        ASCORE.BOX_OFFICE_SCORE AS 'BOX_OFFICE_SCORE'
+    FROM ARTIST_SCORE ASCORE
+    INNER JOIN PUBLIC_ARTIST PA ON PA.AID = ASCORE.ARTIST_ID
+    WHERE PA.ARTIST_NAME = :actor_name
+    """
+
+    actor_obj = {
+        'actor_name' : actor_name
+    }
+
     cur = conn.cursor()
-    cur.execute("SELECT * FROM ARTIST_SCORE WHERE ARTIST_NAME LIKE '%"+actor_name+"%'")
+    cur.execute(sql, actor_obj)
  
     rows = cur.fetchall()
     
@@ -176,17 +194,17 @@ def main():
         
         # CREATE
         # :artist_name, :year, :critic_score, :audience_score, :box_office_score
-        print('Create Aritst Score')
-        bubble_obj = {
-            'artist_name' : 'Dhanush',
-            'year' : 2018,
-            'critic_score' : 82,
-            'audience_score' : 77,
-            'box_office_score' : 90
-        } 
-        result = add_artist_score_crud(conn, bubble_obj)
-        print(result)
-        print('---------------\n')
+        # print('Create Aritst Score')
+        # bubble_obj = {
+        #     'artist_name' : 'Dhanush',
+        #     'year' : 2018,
+        #     'critic_score' : 82,
+        #     'audience_score' : 77,
+        #     'box_office_score' : 90
+        # } 
+        # result = add_artist_score_crud(conn, bubble_obj)
+        # print(result)
+        # print('---------------\n')
     
         # READ
         # print('Read Movie')
@@ -195,7 +213,7 @@ def main():
 
         # READ by Name
         print('Read Coartist Bubble by Name')
-        select_all_by_actor(conn, 'Dhanush')
+        select_all_by_actor(conn, 'Vijay')
         print('---------------\n')
         
         # UPDATE

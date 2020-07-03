@@ -15,7 +15,7 @@ import sqlite3
 import random
 from sqlite3 import Error
 
-database = "movie.db"
+database = "kapi.db"
 
 def start():
     """

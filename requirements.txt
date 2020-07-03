@@ -3,3 +3,5 @@
 ### BEGIN ###
 pysqlite3
 ### END ###
+
+xlrd
