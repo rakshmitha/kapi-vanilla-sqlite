@@ -85,3 +85,6 @@ docs/_build/
 
 database.db
 *.db
+
+kapi.xlsx
+*.xlsx
