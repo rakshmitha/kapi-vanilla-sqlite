@@ -50,7 +50,6 @@ def read_artists(sheet):
         name, original_name, dob, location, country, income, description = None, None, None, None, None, None, None
 
         name = values[0]
-
         original_name = values[1]
         dob = values[2]
         location = values[3]
@@ -58,7 +57,16 @@ def read_artists(sheet):
         income = values[5]
         description = values[6]
 
-        print(country)
+        if(len(name) <= 1):
+            continue
+
+        if(name == 'NA'):
+            continue
+        # print(country)
+
+        sql = "INSERT INTO PUBLIC_ARTIST (ARTIST_NAME, DOB, LOCATION, COUNTRY) VALUES ('"+str(name)+"', '01 01 1993', '"+str(location)+"', '"+str(country)+"');"
+
+        print(sql)
 
 
 def read_xlsx():
