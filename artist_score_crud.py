@@ -454,15 +454,15 @@ def main():
         # print(result)
         # print('---------------\n')
 
-        # Make sql
+        # Make sql - Artist score
         # generate_artist_score(conn)
 
         # Make Coartist bubble score
         # generate_coartist_bubble_score_insert_sql(conn)
 
         # 
-        actor_details = get_actor_details_by_name(conn, 'dhanush')
-        print(actor_details)
+        # actor_details = get_actor_details_by_name(conn, 'dhanush')
+        # print(actor_details)
     
         # READ
         # print('Read Movie')
