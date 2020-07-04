@@ -158,6 +158,55 @@ def get_actor_id(conn, actor_name):
 
     return -1
 
+def get_actor_details_by_name(conn, actor_name):
+    """
+    Query all rows in the MOVIE table
+    :param conn: the Connection object
+    :return:
+    """
+
+    sql = """
+    SELECT
+        PA.AID AS 'ARTIST_ID',
+        PA.ARTIST_NAME AS 'ARTIST_NAME',
+        PA.LOCATION AS 'LOCAION', 
+        PA.COUNTRY AS 'COUNTRY', 
+        PA.DESCRIPTION AS 'DESCRIPTION', 
+        PA.PIC_LOCATION AS 'PIC_LOCATION'
+    FROM PUBLIC_ARTIST PA
+    WHERE PA.ARTIST_NAME = :actor_name COLLATE NOCASE;
+    """
+
+    actor_obj = {
+        'actor_name' : actor_name
+    }
+
+    cur = conn.cursor()
+    cur.execute(sql, actor_obj)
+ 
+    rows = cur.fetchall()
+    
+    # print('rows count : '+str(len(rows)))
+    
+    if(len(rows) <= 0):
+        print('No Data available')
+        return None
+
+    for row in rows:
+        score_dict = {
+            'artist_id' : row[0],
+            'artist_name' : row[1],
+            'location' : row[2],
+            'country' : row[3],
+            'description' : row[4],
+            'pic_location' : row[5]
+        }
+
+        return score_dict
+
+
+    return -1
+
 def select_all_by_actor(conn, actor_name):
     """
     Query all rows in the MOVIE table
@@ -221,13 +270,16 @@ def select_coartist_bubble_by_artist(conn, actor_name):
     sql = """
     SELECT
         ARTIST_ID,
+        PA.ARTIST_NAME AS 'ARTIST_NAME',
         ARTIST_CATEGORY,
         COARTIST_ID,
+        CPA.ARTIST_NAME AS 'CO_ARTIST_NAME',
         COARTIST_CATEGORY,
         COUNT(BUBBLE_SCORE) AS 'VOTE_COUNT',
         ROUND(AVG(BUBBLE_SCORE), 2) AS 'BUBBLE_SCORE'
     FROM COARTIST_BUBBLE COB
     INNER JOIN PUBLIC_ARTIST PA ON PA.AID = COB.ARTIST_ID
+    INNER JOIN PUBLIC_ARTIST CPA ON CPA.AID = COB.COARTIST_ID
     WHERE PA.ARTIST_NAME = :actor_name COLLATE NOCASE
     GROUP BY COARTIST_ID
     """
@@ -249,15 +301,17 @@ def select_coartist_bubble_by_artist(conn, actor_name):
  
     coartist_bubble_list = []
     for row in rows:
-        print(row) 
+        # print(row) 
 
         c_bubble_dict = {
             'arist_id' : row[0],
-            'artist_category' : row[1],
-            'coartist_id' : row[2],
-            'coartist_category' : row[3],
-            'vote_count' : row[4],
-            'bubble_score' : row[5]
+            'artist_name' : row[1],
+            'artist_category' : row[2],
+            'coartist_id' : row[3],
+            'coartist_name' : row[4],
+            'coartist_category' : row[5],
+            'vote_count' : row[6],
+            'bubble_score' : row[7]
         }
 
         coartist_bubble_list.append(c_bubble_dict)
@@ -382,7 +436,9 @@ def main():
     # create a database connection
     conn = create_connection(database)
     
-    with conn:        
+    with conn:   
+
+        pass     
         
         # CREATE
         # :artist_name, :year, :critic_score, :audience_score, :box_office_score
@@ -402,7 +458,11 @@ def main():
         # generate_artist_score(conn)
 
         # Make Coartist bubble score
-        generate_coartist_bubble_score_insert_sql(conn)
+        # generate_coartist_bubble_score_insert_sql(conn)
+
+        # 
+        actor_details = get_actor_details_by_name(conn, 'dhanush')
+        print(actor_details)
     
         # READ
         # print('Read Movie')

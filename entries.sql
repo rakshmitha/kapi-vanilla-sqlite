@@ -98,7 +98,20 @@ INSERT INTO PUBLIC_ARTIST (ARTIST_NAME, DOB, LOCATION, COUNTRY) VALUES ('A. R. R
 
 UPDATE PUBLIC_ARTIST 
 SET DESCRIPTION = ""
-WHERE WHERE ARTIST_NAME = 'Dhanush';
+WHERE ARTIST_NAME = 'Dhanush';
+
+-- UPDATE PROFILE PIC
+UPDATE PUBLIC_ARTIST 
+SET PIC_LOCATION = "https://tactindia.s3.ap-south-1.amazonaws.com/kapi/artist/dhanush01.jpg"
+WHERE ARTIST_NAME = 'Dhanush';
+
+UPDATE PUBLIC_ARTIST 
+SET PIC_LOCATION = "https://tactindia.s3.ap-south-1.amazonaws.com/kapi/artist/vijay02.png"
+WHERE ARTIST_NAME = 'Vijay';
+
+UPDATE PUBLIC_ARTIST 
+SET PIC_LOCATION = "https://tactindia.s3.ap-south-1.amazonaws.com/kapi/artist/ajith.jpg"
+WHERE ARTIST_NAME = 'Ajith';
 
 -- MOVIE ARTIST
 
