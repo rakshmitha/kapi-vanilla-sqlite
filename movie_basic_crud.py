@@ -16,8 +16,11 @@ import random
 from sqlite3 import Error
 
 import zenv
+import random_world as ranwo
+
 
 database = zenv.DB_LOCATION
+
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
@@ -44,7 +47,7 @@ def select_all(conn):
  
     rows = cur.fetchall()
     
-    print('rows count : '+str(len(rows)))
+    # print('rows count : '+str(len(rows)))
     
     if(len(rows) <= 0):
         print('No Data available')
@@ -52,25 +55,105 @@ def select_all(conn):
     for row in rows:
         print(row)         
 
-def select_all_by_actor(conn, actor_name):
+def select_all_movies_with_artists_by_movie_name(conn, movie_name):
     """
     Query all rows in the MOVIE table
     :param conn: the Connection object
     :return:
     """
+
+    sql = """
+    SELECT
+        MA.MOVIE_ID AS 'MOVIE_ID',
+        M.MOVIE_NAME AS  'MOVIE_NAME',
+        MA.ARTIST_ID AS 'ARTIST_ID',
+        PA.ARTIST_NAME AS 'ARTIST_NAME',
+        MA.ARTIST_ROLE AS 'ARTIST_ROLE'
+    FROM MOVIE_ARTIST MA
+    INNER JOIN MOVIE M ON M.MID = MA.MOVIE_ID
+    INNER JOIN PUBLIC_ARTIST PA ON PA.AID = MA.ARTIST_ID
+    WHERE M.MOVIE_NAME = :movie_name COLLATE NOCASE;
+    """
+
+    movie_obj = {
+        'movie_name' : movie_name
+    }
+
     cur = conn.cursor()
-    cur.execute("SELECT * FROM MOVIE WHERE STARRING LIKE '%"+actor_name+"%'")
+    cur.execute(sql, movie_obj)
  
     rows = cur.fetchall()
     
-    print('rows count : '+str(len(rows)))
+    # print('rows count : '+str(len(rows)))
     
     if(len(rows) <= 0):
         print('No Data available')
  
+    movie_list = []
     for row in rows:
-        print(row) 
+        # print(row) 
 
+        cur_movie = {
+            'movie_id' : row[0],
+            'movie_name' : row[1],
+            'artist_id' : row[2],
+            'artist_name' : row[3],
+            'artist_role' : row[4]
+        }
+
+        movie_list.append(cur_movie)
+
+    # print('movie_list : ', movie_list)
+
+    return movie_list
+
+def select_all_movies_by_actor_name(conn, actor_name):
+    """
+    Query all rows in the MOVIE table
+    :param conn: the Connection object
+    :return:
+    """
+
+    sql = """
+    SELECT
+        M.MID AS 'MOVIE_ID',
+        M.MOVIE_NAME AS  'MOVIE_NAME',
+        M.RELEASE_DATE AS 'RELEASE_DATE'
+    FROM MOVIE M
+    INNER JOIN MOVIE_ARTIST MA ON M.MID = MA.MOVIE_ID
+    INNER JOIN PUBLIC_ARTIST PA ON PA.AID = MA.ARTIST_ID
+    WHERE PA.ARTIST_NAME = :actor_name COLLATE NOCASE
+    """
+
+    movie_obj = {
+        'actor_name' : actor_name
+    }
+
+    cur = conn.cursor()
+    cur.execute(sql, movie_obj)
+ 
+    rows = cur.fetchall()
+    
+    # print('rows count : '+str(len(rows)))
+    
+    if(len(rows) <= 0):
+        print('No Data available')
+ 
+    movie_list = []
+    for row in rows:
+        # print(row) 
+
+        cur_movie = {
+            'movie_id' : row[0],
+            'movie_name' : row[1],
+            'release_date' : row[2]
+        }
+
+        movie_list.append(cur_movie)
+
+    # print('movie_list : ', movie_list)
+
+    return movie_list
 
 def add_movie(conn, movie_obj):
     """
@@ -165,35 +248,46 @@ def main():
     # create a database connection
     conn = create_connection(database)
     
-    with conn:        
+    with conn:  
+
+        pass      
         
         # CREATE
         # print('Create Movie')
         # movie_obj = {
         #     'name' : 'Dharbar',
-        #     'release_date' : '9 Jan 2020',
-        #     'starring' : 'Rajini, Nayanthara'
+        #     'release_date' : '9 Jan 2020'
         # } 
         # result = add_movie(conn, movie_obj)
         # print(result)
         # print('---------------\n')
+
+        # Make 
     
         # READ
         # print('Read Movie')
         # select_all(conn)
         # print('---------------\n')
 
-        # READ by Name
-        print('Read Movie by Name')
-        select_all_by_actor(conn, 'Rajini')
-        print('---------------\n')
+        # Get all movies with artist by movie name
+        # print('Read Movie with artists by Name ')
+        # select_all_movies_with_artists_by_movie_name(conn, 'maari 2')
+        # print('---------------\n')
+
+        # Get all movies by artist name
+        # select_all_movies_by_actor_name(conn, 'dhanush')
+        # print('---------------\n')
+
+        # # READ by Name
+        # print('Read Movie with artists by Name ')
+        # select_all_movies_with_artists_by_movie_name(conn, 'maari 2')
+        # print('---------------\n')
         
         # UPDATE
         # print('Update Movie')
         # city_new_obj = {
         #     'name' : 'Asuran',
-        #     'new_name' : 'Asuran',
-        #     'starring' : 'Dhanush, TeeJay, Ken Karunas',
+        #     'new_name' : 'Asuran'
         #     'release_date' : '4 Oct 2019'
         # }
         # update_movie(conn, city_new_obj)

@@ -5,3 +5,4 @@ pysqlite3
 ### END ###
 
 xlrd
+faker
