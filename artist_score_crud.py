@@ -167,14 +167,16 @@ def select_all_by_actor(conn, actor_name):
 
     sql = """
     SELECT
-	PA.AID AS 'ARTIST_ID',
-	PA.ARTIST_NAME AS 'ARTIST_NAME',
-	ROUND(AVG(ASCO.CRITIC_SCORE), 2) AS 'CRITIC_SCORE',
-	ROUND(AVG(ASCO.AUDIENCE_SCORE), 2) AS 'AUDIENCE_SCORE',
-	ROUND(AVG(ASCO.CRITIC_SCORE), 2) AS 'BOX_OFFICE_SCORE'
+        PA.AID AS 'ARTIST_ID',
+        PA.ARTIST_NAME AS 'ARTIST_NAME',
+        ASCO.YEAR  AS 'ARTIST_YEAR',
+        ROUND(AVG(ASCO.CRITIC_SCORE), 2) AS 'CRITIC_SCORE',
+        ROUND(AVG(ASCO.AUDIENCE_SCORE), 2) AS 'AUDIENCE_SCORE',
+        ROUND(AVG(ASCO.CRITIC_SCORE), 2) AS 'BOX_OFFICE_SCORE'
     FROM ARTIST_SCORE ASCO
     INNER JOIN PUBLIC_ARTIST PA ON PA.AID = ASCO.ARTIST_ID
     WHERE PA.ARTIST_NAME = :actor_name COLLATE NOCASE
+    GROUP BY ASCO.YEAR
     """
 
     actor_obj = {
@@ -191,8 +193,22 @@ def select_all_by_actor(conn, actor_name):
     if(len(rows) <= 0):
         print('No Data available')
  
+    score_list = []
     for row in rows:
-        print(row) 
+        # print(row) 
+
+        score_dict = {
+            'artist_id' : row[0],
+            'artist_name' : row[1],
+            'artist_year' : row[2],
+            'critic_score' : row[3],
+            'audience_score' : row[4],
+            'box_office_score' : row[5]
+        }
+
+        score_list.append(score_dict)
+
+    return score_list
 
 
 def select_coartist_bubble_by_artist(conn, actor_name):
