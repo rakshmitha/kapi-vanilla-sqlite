@@ -207,6 +207,60 @@ def get_actor_details_by_name(conn, actor_name):
 
     return -1
 
+def select_all_artits(conn, limit, offset):
+    """
+    Query all rows in the MOVIE table
+    :param conn: the Connection object
+    :return:
+    """
+
+    sql = """
+    SELECT
+        AID,
+        ARTIST_NAME,
+        ORIGINAL_NAME,
+        DOB,
+        LOCATION,
+        COUNTRY,
+        DESCRIPTION,
+        PIC_LOCATION
+    FROM PUBLIC_ARTIST
+    LIMIT :limit OFFSET :offset
+    """
+
+    actor_obj = {
+        'actor_name' : actor_name
+    }
+
+    cur = conn.cursor()
+    cur.execute(sql, actor_obj)
+ 
+    rows = cur.fetchall()
+    
+    # print('rows count : '+str(len(rows)))
+    
+    if(len(rows) <= 0):
+        print('No Data available')
+ 
+    artist_list = []
+    for row in rows:
+        # print(row) 
+
+        artist_dict = {
+            'artist_id' : row[0],
+            'artist_name' : row[1],
+            'original_name' : row[2],
+            'dob' : row[3],
+            'location' : row[4],
+            'country' : row[5],
+            'description' : row[6],
+            'pic_location' : row[7]
+        }
+
+        artist_list.append(artist_dict)
+
+    return artist_list
+
 def select_all_by_actor(conn, actor_name):
     """
     Query all rows in the MOVIE table
