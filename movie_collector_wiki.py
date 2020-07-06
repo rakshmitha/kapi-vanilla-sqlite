@@ -27,7 +27,13 @@ def start():
     page = requests.get('https://en.wikipedia.org/wiki/Petta_(film)')
     soup = BeautifulSoup(page.text, 'html.parser')    
     
-    #print(soup)    
+    #print(soup)   
+
+    movie_title = soup.select('h1#firstHeading')[0].get_text()
+    if(' (film)' in movie_title):
+        movie_title = movie_title.replace(' (film)', '')
+
+    # print(movie_title)
 
     items = soup.select('table.infobox tr')
 
@@ -42,7 +48,7 @@ def start():
         Director
     '''
     movie_dict = {
-        'movie_name' : None,
+        'movie_name' : movie_title,
         'release_date' : None,
         'lead_actors' : None,
         'lead_actresses' : None,
@@ -69,13 +75,17 @@ def start():
 
         if(key == 'Directed by'):
             val = c_td.get_text()
-
             movie_dict['director'] = val
         elif(key == 'Music by'):
             val = c_td.get_text()
-
             movie_dict['music_director'] = val
+        elif(key == 'Release date'):
+            val = c_td.get_text()
 
+            # https://stackoverflow.com/questions/10993612/python-removing-xa0-from-string
+            val = val.replace(u'\xa0', u' ')
+            val = val.replace(u'\n', u'')
+            movie_dict['release_date'] = val
 
     print(movie_dict)
 
