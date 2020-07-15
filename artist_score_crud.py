@@ -36,6 +36,7 @@ active_years = [
     2020
 ]
 
+
 def make_artist_score_insert_sql(conn, actor_name):
 
     artist_id = get_actor_id(conn, actor_name)
@@ -51,9 +52,11 @@ def make_artist_score_insert_sql(conn, actor_name):
 
         r_ip = ranwo.get_random_ip()
 
-        sql = "INSERT INTO ARTIST_SCORE (ARTIST_ID, YEAR, CRITIC_SCORE, AUDIENCE_SCORE, BOX_OFFICE_SCORE, USER_IP, USERID, UPDATED_AT) VALUES ("+str(artist_id)+", "+str(c_year)+", "+str(r_critic_score)+", "+str(r_audience_score)+", "+str(r_box_office_score)+", '"+str(r_ip)+"', NULL, DATE());"
+        sql = "INSERT INTO ARTIST_SCORE (ARTIST_ID, YEAR, CRITIC_SCORE, AUDIENCE_SCORE, BOX_OFFICE_SCORE, USER_IP, USERID, UPDATED_AT) VALUES ("+str(
+            artist_id)+", "+str(c_year)+", "+str(r_critic_score)+", "+str(r_audience_score)+", "+str(r_box_office_score)+", '"+str(r_ip)+"', NULL, DATE());"
 
         print(sql)
+
 
 def make_coartist_bubble_score_insert_sql(conn, actor_name):
 
@@ -66,7 +69,8 @@ def make_coartist_bubble_score_insert_sql(conn, actor_name):
     for movie in movie_list:
         # print(movie)
 
-        movie_artist_list = mcrud.select_all_movies_with_artists_by_movie_name(conn, movie['movie_name'])
+        movie_artist_list = mcrud.select_all_movies_with_artists_by_movie_name(
+            conn, movie['movie_name'])
 
         for movie_artist in movie_artist_list:
 
@@ -77,7 +81,7 @@ def make_coartist_bubble_score_insert_sql(conn, actor_name):
                 continue
 
             c_artist_id = artist_id
-            c_artist_category = 'starring' # hardcoded as we use only actors now
+            c_artist_category = 'starring'  # hardcoded as we use only actors now
             c_coartist_id = movie_artist['artist_id']
             c_coartist_category = movie_artist['artist_role']
             c_bubble_score = ranwo.get_random_score(60, 100)
@@ -85,9 +89,11 @@ def make_coartist_bubble_score_insert_sql(conn, actor_name):
             c_user_ip = ranwo.get_random_ip()
 
             sql = "INSERT INTO COARTIST_BUBBLE (ARTIST_ID, ARTIST_CATEGORY, COARTIST_ID, COARTIST_CATEGORY, BUBBLE_SCORE, USER_IP, USERID, UPDATED_AT) "
-            sql += "VALUES ("+str(c_artist_id)+", '"+str(c_artist_category)+"', "+str(c_coartist_id)+", '"+str(c_coartist_category)+"', "+str(c_bubble_score)+", '"+str(c_user_ip)+"', 0, DATE());" 
+            sql += "VALUES ("+str(c_artist_id)+", '"+str(c_artist_category)+"', "+str(c_coartist_id)+", '"+str(
+                c_coartist_category)+"', "+str(c_bubble_score)+", '"+str(c_user_ip)+"', 0, DATE());"
 
-            print(sql)    
+            print(sql)
+
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
@@ -100,8 +106,9 @@ def create_connection(db_file):
         return conn
     except Error as e:
         print(e)
- 
+
     return None
+
 
 def select_all(conn):
     """
@@ -111,16 +118,17 @@ def select_all(conn):
     """
     cur = conn.cursor()
     cur.execute("SELECT * FROM MOVIE")
- 
+
     rows = cur.fetchall()
-    
+
     print('rows count : '+str(len(rows)))
-    
+
     if(len(rows) <= 0):
         print('No Data available')
- 
+
     for row in rows:
-        print(row)         
+        print(row)
+
 
 def get_actor_id(conn, actor_name):
     """
@@ -137,26 +145,27 @@ def get_actor_id(conn, actor_name):
     """
 
     actor_obj = {
-        'actor_name' : actor_name
+        'actor_name': actor_name
     }
 
     cur = conn.cursor()
     cur.execute(sql, actor_obj)
- 
+
     rows = cur.fetchall()
-    
+
     # print('rows count : '+str(len(rows)))
-    
+
     if(len(rows) <= 0):
         print('No Data available')
         return -1
 
     for row in rows:
-        # print(row) 
+        # print(row)
 
         return row[0]
 
     return -1
+
 
 def get_actor_details_by_name(conn, actor_name):
     """
@@ -178,34 +187,34 @@ def get_actor_details_by_name(conn, actor_name):
     """
 
     actor_obj = {
-        'actor_name' : actor_name
+        'actor_name': actor_name
     }
 
     cur = conn.cursor()
     cur.execute(sql, actor_obj)
- 
+
     rows = cur.fetchall()
-    
+
     # print('rows count : '+str(len(rows)))
-    
+
     if(len(rows) <= 0):
         print('No Data available')
         return None
 
     for row in rows:
         score_dict = {
-            'artist_id' : row[0],
-            'artist_name' : row[1],
-            'location' : row[2],
-            'country' : row[3],
-            'description' : row[4],
-            'pic_location' : row[5]
+            'artist_id': row[0],
+            'artist_name': row[1],
+            'location': row[2],
+            'country': row[3],
+            'description': row[4],
+            'pic_location': row[5]
         }
 
         return score_dict
 
-
     return -1
+
 
 def select_all_artits(conn, limit, offset):
     """
@@ -229,37 +238,38 @@ def select_all_artits(conn, limit, offset):
     """
 
     actor_obj = {
-        'actor_name' : actor_name
+        'actor_name': actor_name
     }
 
     cur = conn.cursor()
     cur.execute(sql, actor_obj)
- 
+
     rows = cur.fetchall()
-    
+
     # print('rows count : '+str(len(rows)))
-    
+
     if(len(rows) <= 0):
         print('No Data available')
- 
+
     artist_list = []
     for row in rows:
-        # print(row) 
+        # print(row)
 
         artist_dict = {
-            'artist_id' : row[0],
-            'artist_name' : row[1],
-            'original_name' : row[2],
-            'dob' : row[3],
-            'location' : row[4],
-            'country' : row[5],
-            'description' : row[6],
-            'pic_location' : row[7]
+            'artist_id': row[0],
+            'artist_name': row[1],
+            'original_name': row[2],
+            'dob': row[3],
+            'location': row[4],
+            'country': row[5],
+            'description': row[6],
+            'pic_location': row[7]
         }
 
         artist_list.append(artist_dict)
 
     return artist_list
+
 
 def select_all_by_actor(conn, actor_name):
     """
@@ -283,30 +293,30 @@ def select_all_by_actor(conn, actor_name):
     """
 
     actor_obj = {
-        'actor_name' : actor_name
+        'actor_name': actor_name
     }
 
     cur = conn.cursor()
     cur.execute(sql, actor_obj)
- 
+
     rows = cur.fetchall()
-    
+
     # print('rows count : '+str(len(rows)))
-    
+
     if(len(rows) <= 0):
         print('No Data available')
- 
+
     score_list = []
     for row in rows:
-        # print(row) 
+        # print(row)
 
         score_dict = {
-            'artist_id' : row[0],
-            'artist_name' : row[1],
-            'artist_year' : row[2],
-            'critic_score' : row[3],
-            'audience_score' : row[4],
-            'box_office_score' : row[5]
+            'artist_id': row[0],
+            'artist_name': row[1],
+            'artist_year': row[2],
+            'critic_score': row[3],
+            'audience_score': row[4],
+            'box_office_score': row[5]
         }
 
         score_list.append(score_dict)
@@ -339,33 +349,33 @@ def select_coartist_bubble_by_artist(conn, actor_name):
     """
 
     actor_obj = {
-        'actor_name' : actor_name
+        'actor_name': actor_name
     }
 
     cur = conn.cursor()
     cur.execute(sql, actor_obj)
- 
+
     rows = cur.fetchall()
-    
+
     # print('rows count : '+str(len(rows)))
-    
+
     if(len(rows) <= 0):
         print('No Data available')
         return None
- 
+
     coartist_bubble_list = []
     for row in rows:
-        # print(row) 
+        # print(row)
 
         c_bubble_dict = {
-            'arist_id' : row[0],
-            'artist_name' : row[1],
-            'artist_category' : row[2],
-            'coartist_id' : row[3],
-            'coartist_name' : row[4],
-            'coartist_category' : row[5],
-            'vote_count' : row[6],
-            'bubble_score' : row[7]
+            'arist_id': row[0],
+            'artist_name': row[1],
+            'artist_category': row[2],
+            'coartist_id': row[3],
+            'coartist_name': row[4],
+            'coartist_category': row[5],
+            'vote_count': row[6],
+            'bubble_score': row[7]
         }
 
         coartist_bubble_list.append(c_bubble_dict)
@@ -383,18 +393,19 @@ def add_artist_score_crud(conn, bubble_obj):
     sql = ''' INSERT INTO ARTIST_SCORE (ARTIST_NAME, YEAR, CRITIC_SCORE, AUDIENCE_SCORE, BOX_OFFICE_SCORE) 
             VALUES (:artist_name, :year, :critic_score, :audience_score, :box_office_score) '''
     cur = conn.cursor()
-    
+
     lastrowid = -1
     try:
         cur.execute(sql, bubble_obj)
-        
+
         lastrowid = cur.lastrowid
     except sqlite3.IntegrityError as sqle:
         print("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
-    
+
     return lastrowid
+
 
 def update_movie(conn, bubble_obj):
     """
@@ -402,64 +413,67 @@ def update_movie(conn, bubble_obj):
     :param movie object:
     :return: None
     """
-   
+
     sql = ''' UPDATE MOVIE
     SET MOVIE_NAME = :new_name, 
     STARRING = :starring,
     RELEASE_DATE = :release_date 
     WHERE MOVIE_NAME = :name '''
     cur = conn.cursor()
-    
+
     try:
         cur.execute(sql, bubble_obj)
-        
+
     except sqlite3.IntegrityError as sqle:
         print("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
-    
+
     print('Updated')
-    
+
+
 def delete_movie(conn, name):
     """
     Delete a movie
     :param movie object:
     :return: None
     """
-   
+
     sql = ''' DELETE FROM MOVIE    
     WHERE MOVIE_NAME = ?'''
     cur = conn.cursor()
-    
+
     try:
         cur.execute(sql, (name,))
-        
+
     except sqlite3.IntegrityError as sqle:
         print("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
-    
+
     print('Deleted')
-    
+
+
 def delete_all_cities(conn):
     """
     Delete a movie
     :param movie object:
     :return: None
     """
-   
+
     sql = ''' DELETE MOVIE '''
     cur = conn.cursor()
-    
+
     try:
         cur.execute(sql)
-        
+
     except sqlite3.IntegrityError as sqle:
         print("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
-    
-    print('Delete')  
+
+    print('Delete')
+
 
 def generate_artist_score(conn):
 
@@ -473,6 +487,7 @@ def generate_artist_score(conn):
 
     make_artist_score_insert_sql(conn, actor_name)
 
+
 def generate_coartist_bubble_score_insert_sql(conn):
 
     if(not sys.argv[0]):
@@ -485,25 +500,26 @@ def generate_coartist_bubble_score_insert_sql(conn):
 
     make_coartist_bubble_score_insert_sql(conn, actor_name)
 
-def main():    
- 
+
+def main():
+
     # create a database connection
     conn = create_connection(database)
-    
-    with conn:   
 
-        pass     
-        
+    with conn:
+
+        pass
+
         # CREATE
-        # :artist_name, :year, :critic_score, :audience_score, :box_office_score
+        # : artist_name, : year, : critic_score, : audience_score, : box_office_score
         # print('Create Aritst Score')
         # bubble_obj = {
-        #     'artist_name' : 'Dhanush',
-        #     'year' : 2018,
-        #     'critic_score' : 82,
-        #     'audience_score' : 77,
-        #     'box_office_score' : 90
-        # } 
+        #     'artist_name': 'Dhanush',
+        #     'year': 2018,
+        #     'critic_score': 82,
+        #     'audience_score': 77,
+        #     'box_office_score': 90
+        # }
         # result = add_artist_score_crud(conn, bubble_obj)
         # print(result)
         # print('---------------\n')
@@ -514,10 +530,10 @@ def main():
         # Make Coartist bubble score
         # generate_coartist_bubble_score_insert_sql(conn)
 
-        # 
+        #
         # actor_details = get_actor_details_by_name(conn, 'dhanush')
         # print(actor_details)
-    
+
         # READ
         # print('Read Movie')
         # select_all(conn)
@@ -528,7 +544,7 @@ def main():
         # actor_name = sys.argv[1]
         # select_all_by_actor(conn, actor_name)
         # print('---------------\n')
-        
+
         # UPDATE
         # print('Update Movie')
         # city_new_obj = {
@@ -539,11 +555,12 @@ def main():
         # }
         # update_movie(conn, city_new_obj)
         # print('---------------\n')
-        
-        # DELETE    
-        # print('Delete Movie')  
+
+        # DELETE
+        # print('Delete Movie')
         # delete_movie(conn, 'Kadal')
         # print('---------------\n')
-        
+
+
 if __name__ == '__main__':
-    main()        
+    main()
