@@ -18,7 +18,7 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def index():
     result = select_all(get_db())
-    return make_response(jsonify(result), 200)
+    return make_response(jsonify(result=result), 200)
 
 
 # def select_all():
