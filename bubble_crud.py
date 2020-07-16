@@ -67,13 +67,13 @@ def select_all_by_actor(conn, actor_name):
 
     rows = cur.fetchall()
 
-    print('rows count : '+str(len(rows)))
+    #print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
 
     for row in rows:
-        print(row)
+        return(row)
 
 
 def add_coartist_bubble(conn, bubble_obj):
@@ -93,7 +93,7 @@ def add_coartist_bubble(conn, bubble_obj):
 
         lastrowid = cur.lastrowid
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
@@ -118,11 +118,11 @@ def update_movie(conn, bubble_obj):
         cur.execute(sql, bubble_obj)
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
-    print('Updated')
+    return('Updated')
 
 
 def delete_movie(conn, name):
@@ -140,11 +140,11 @@ def delete_movie(conn, name):
         cur.execute(sql, (name,))
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
-    print('Deleted')
+    return('Deleted')
 
 
 def delete_all_cities(conn):
@@ -154,18 +154,18 @@ def delete_all_cities(conn):
     :return: None
     """
 
-    sql = ''' DELETE MOVIE '''
+    sql = ''' DELETE FROM MOVIE '''
     cur = conn.cursor()
 
     try:
         cur.execute(sql)
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
-    print('Delete')
+    return('Delete')
 
 
 def main():
