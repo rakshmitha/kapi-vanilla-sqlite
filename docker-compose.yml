@@ -3,4 +3,4 @@ services:
     app:
         build: .
         ports: 
-            - "5001:5001"
+            - "6074:5001"
