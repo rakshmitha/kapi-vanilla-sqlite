@@ -429,7 +429,7 @@ def update_movie(conn, bubble_obj):
     finally:
         conn.commit()
 
-    print('Updated')
+    return('UPDATED')
 
 
 def delete_movie(conn, name):
@@ -451,17 +451,17 @@ def delete_movie(conn, name):
     finally:
         conn.commit()
 
-    print('Deleted')
+    return('DELETED')
 
 
-def delete_all_cities(conn):
+def delete_all_movies(conn):
     """
     Delete a movie
     :param movie object:
     :return: None
     """
 
-    sql = ''' DELETE MOVIE '''
+    sql = ''' DELETE FROM MOVIE '''
     cur = conn.cursor()
 
     try:
@@ -472,7 +472,7 @@ def delete_all_cities(conn):
     finally:
         conn.commit()
 
-    print('Delete')
+    return('DELETED ALL MOVIES')
 
 
 def generate_artist_score(conn):
@@ -533,7 +533,6 @@ def main():
         #
         # actor_details = get_actor_details_by_name(conn, 'dhanush')
         # print(actor_details)
-
         # READ
         # print('Read Movie')
         # select_all(conn)

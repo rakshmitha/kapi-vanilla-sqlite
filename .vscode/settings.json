@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/alvisf/.local/share/virtualenvs/kapi-vanilla-sqlite-WbPvjEOP/bin/python"
+    "python.pythonPath": "/Users/alvisf/.local/share/virtualenvs/kapi-vanilla-sqlite-WbPvjEOP/bin/python",
+    "liveServer.settings.port": 5501
 }
