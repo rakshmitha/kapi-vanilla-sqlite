@@ -36,8 +36,8 @@ def add_movie(name, release_date, starring):
     try:
         conn = sqlite3.connect(database)        
     except Error as e:
-        print(e) 
-        return
+        return(e) 
+        
     
     sql = ''' INSERT INTO MOVIE (MOVIE_NAME, RELEASE_DATE, STARRING) 
             VALUES (:name, :release_date, :starring) '''
@@ -55,15 +55,15 @@ def add_movie(name, release_date, starring):
         
         created_id = cur.lastrowid
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         #print('clean up')
         conn.commit()
     
-    print('created id : '+str(created_id))
+    return('created id : '+str(created_id))
 
 def start():
-
+    
     add_movie('Thanga Magan', '18 Dec 2015', 'Dhanush, Amy Jackson, Samantha Ruth Prabhu')
 
 if __name__ == '__main__':
