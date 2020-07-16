@@ -50,10 +50,11 @@ def select_all(conn):
     # print('rows count : '+str(len(rows)))
     
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
  
     for row in rows:
-        print(row)         
+        print(row)
+    return rows         
 
 def select_all_movies_with_artists_by_movie_name(conn, movie_name):
     """
@@ -87,7 +88,7 @@ def select_all_movies_with_artists_by_movie_name(conn, movie_name):
     # print('rows count : '+str(len(rows)))
     
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
  
     movie_list = []
     for row in rows:
@@ -137,7 +138,7 @@ def select_all_movies_by_actor_name(conn, actor_name):
     # print('rows count : '+str(len(rows)))
     
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
  
     movie_list = []
     for row in rows:
@@ -172,7 +173,7 @@ def add_movie(conn, movie_obj):
         
         lastrowid = cur.lastrowid
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
     
@@ -196,11 +197,11 @@ def update_movie(conn, movie_obj):
         cur.execute(sql, movie_obj)
         
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
     
-    print('Updated')
+    return('Updated')
     
 def delete_movie(conn, name):
     """
@@ -217,11 +218,11 @@ def delete_movie(conn, name):
         cur.execute(sql, (name,))
         
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
     
-    print('Deleted')
+    return('Deleted')
     
 def delete_all_cities(conn):
     """
@@ -237,11 +238,11 @@ def delete_all_cities(conn):
         cur.execute(sql)
         
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
     
-    print('Delete')        
+    return('Delete')        
 
 def main():    
  

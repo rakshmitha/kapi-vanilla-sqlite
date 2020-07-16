@@ -124,10 +124,11 @@ def select_all(conn):
     print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
 
     for row in rows:
         print(row)
+    return rows
 
 
 def get_actor_id(conn, actor_name):
@@ -249,7 +250,7 @@ def select_all_artits(conn, limit, offset):
     # print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
 
     artist_list = []
     for row in rows:
