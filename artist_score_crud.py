@@ -305,7 +305,7 @@ def select_all_by_actor(conn, actor_name):
     # print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
 
     score_list = []
     for row in rows:
@@ -361,8 +361,7 @@ def select_coartist_bubble_by_artist(conn, actor_name):
     # print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
-        return None
+        return('No Data available')
 
     coartist_bubble_list = []
     for row in rows:
@@ -401,7 +400,7 @@ def add_artist_score_crud(conn, bubble_obj):
 
         lastrowid = cur.lastrowid
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
@@ -426,7 +425,7 @@ def update_movie(conn, bubble_obj):
         cur.execute(sql, bubble_obj)
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
@@ -448,7 +447,7 @@ def delete_movie(conn, name):
         cur.execute(sql, (name,))
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
@@ -469,7 +468,7 @@ def delete_all_movies(conn):
         cur.execute(sql)
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
