@@ -34,7 +34,7 @@ def read_movies(sheet):
         release_date  = values[4] 
 
         actor = values[5]
-        actress = values[6]
+        actress = values[6]Vijay
         comedian = values[7]
         production_house = values[8]
         critic_rating = values[9]

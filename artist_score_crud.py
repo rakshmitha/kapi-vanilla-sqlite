@@ -124,10 +124,11 @@ def select_all(conn):
     print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
 
     for row in rows:
         print(row)
+    return rows
 
 
 def get_actor_id(conn, actor_name):
@@ -249,7 +250,7 @@ def select_all_artits(conn, limit, offset):
     # print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
 
     artist_list = []
     for row in rows:
@@ -304,7 +305,7 @@ def select_all_by_actor(conn, actor_name):
     # print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
 
     score_list = []
     for row in rows:
@@ -360,8 +361,7 @@ def select_coartist_bubble_by_artist(conn, actor_name):
     # print('rows count : '+str(len(rows)))
 
     if(len(rows) <= 0):
-        print('No Data available')
-        return None
+        return('No Data available')
 
     coartist_bubble_list = []
     for row in rows:
@@ -400,7 +400,7 @@ def add_artist_score_crud(conn, bubble_obj):
 
         lastrowid = cur.lastrowid
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
@@ -425,11 +425,11 @@ def update_movie(conn, bubble_obj):
         cur.execute(sql, bubble_obj)
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
-    print('Updated')
+    return('UPDATED')
 
 
 def delete_movie(conn, name):
@@ -447,32 +447,32 @@ def delete_movie(conn, name):
         cur.execute(sql, (name,))
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
-    print('Deleted')
+    return('DELETED')
 
 
-def delete_all_cities(conn):
+def delete_all_movies(conn):
     """
     Delete a movie
     :param movie object:
     :return: None
     """
 
-    sql = ''' DELETE MOVIE '''
+    sql = ''' DELETE FROM MOVIE '''
     cur = conn.cursor()
 
     try:
         cur.execute(sql)
 
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:
         conn.commit()
 
-    print('Delete')
+    return('DELETED ALL MOVIES')
 
 
 def generate_artist_score(conn):
@@ -533,7 +533,6 @@ def main():
         #
         # actor_details = get_actor_details_by_name(conn, 'dhanush')
         # print(actor_details)
-
         # READ
         # print('Read Movie')
         # select_all(conn)
