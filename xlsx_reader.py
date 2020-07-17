@@ -38,7 +38,7 @@ def read_movies(sheet):
         comedian = values[7]
         production_house = values[8]
         critic_rating = values[9]
-
+        
         # print(comedian)
 
 def read_artists(sheet):

@@ -30,8 +30,7 @@ def start():
     try:
         conn = sqlite3.connect(database)        
     except Error as e:
-        print(e) 
-        return
+        return (e)
     
     sql = ''' DELETE FROM MOVIE
     WHERE MOVIE_NAME = :name 
@@ -41,11 +40,11 @@ def start():
     try:
         cur.execute(sql, ('Asuran',))       
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return ("SQLite error : {0}".format(sqle))
     finally:        
         conn.commit()
     
-    print('Deleted!')
+    return('Deleted!')
 
 if __name__ == '__main__':
     start()        

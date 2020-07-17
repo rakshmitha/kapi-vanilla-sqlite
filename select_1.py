@@ -19,7 +19,7 @@ import zenv
 
 database = zenv.DB_LOCATION
 
-def start():
+def select_1():
     """
     Query all rows in the MOVIE table
     :param conn: the Connection object
@@ -30,21 +30,21 @@ def start():
     try:
         conn = sqlite3.connect(database)        
     except Error as e:
-        print(e) 
-        return
+        return(e) 
     
     cur = conn.cursor()
     cur.execute("SELECT * FROM MOVIE")
  
     rows = cur.fetchall()
     
-    print('rows count : '+str(len(rows)))
+    return('rows count : '+str(len(rows)))
     
     if(len(rows) <= 0):
-        print('No Data available')
+        return('No Data available')
  
     for row in rows:
         print(row)
+    return rows
 
 if __name__ == '__main__':
     start()        

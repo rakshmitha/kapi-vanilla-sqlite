@@ -18,7 +18,7 @@ from sqlite3 import Error
 import zenv
 
 database = zenv.DB_LOCATION
-def start():
+def update():
     """
     Query all rows in the CITY table
     :param conn: the Connection object
@@ -29,7 +29,7 @@ def start():
     try:
         conn = sqlite3.connect(database)        
     except Error as e:
-        print(e) 
+        return(e) 
         return
     
     sql = ''' UPDATE CITY
@@ -47,11 +47,11 @@ def start():
     try:
         cur.execute(sql, city_new_obj)       
     except sqlite3.IntegrityError as sqle:
-        print("SQLite error : {0}".format(sqle))
+        return("SQLite error : {0}".format(sqle))
     finally:        
         conn.commit()
     
-    print('updated!')
+    return('updated!')
 
 if __name__ == '__main__':
-    start()        
+    update()        

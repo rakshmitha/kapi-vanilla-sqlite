@@ -19,7 +19,7 @@ def get_actors(item):
 
     return None
 
-def start():
+def movie_collector_wiki():
     
     #print('Main')
     
@@ -87,7 +87,7 @@ def start():
             val = val.replace(u'\n', u'')
             movie_dict['release_date'] = val
 
-    print(movie_dict)
+    return(movie_dict)
 
 if __name__ == '__main__':
-    start()        
+    movie_collector_wiki()        
