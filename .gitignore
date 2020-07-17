@@ -1,3 +1,6 @@
+.vscode/
+
+
 .pydevproject
 .idea
 .settings
@@ -89,4 +92,3 @@ database.db
 kapi.xlsx
 *.xlsx
 
-.vscode/
