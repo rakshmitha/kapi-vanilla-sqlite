@@ -32,6 +32,11 @@ http://0.0.0.0:5001/start
 def index():
     result = bc.select_all(get_db())
     return make_response(jsonify(result), 200)
+'''
+Started by-Vyshnavi Katikala
+
+'''
+
 
 '''
 http://0.0.0.0:5001/start
@@ -83,7 +88,7 @@ def movie_collector_wiki():
     return make_response(jsonify(result=result), 200)
 
 
-
+'''ended - Vyshnavi Kaatikala'''
 
 
 '''Started - Gokul'''
