@@ -14,7 +14,7 @@ MarkupSafe==1.1.1
 pycosat==0.6.3
 pycparser==2.20
 pyOpenSSL==19.1.0
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 PySocks==1.7.1
 python-dateutil==2.8.1
 requests==2.23.0
